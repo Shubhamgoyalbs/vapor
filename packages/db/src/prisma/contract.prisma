@@ -1,0 +1,25 @@
+// use prisma-8
+
+/// GATEWAY
+
+enum AccountStatus {
+  PENDING
+  VERIFIED
+}
+
+model Account {
+  id      String        @id @default(uuid(7))
+  email   String        @unique
+  name    String
+  status  AccountStatus
+  apiKeys ApiKey[]
+}
+
+model ApiKey {
+  id          String  @id @default(uuid(7))
+  account     Account @relation(fields: [accountId], references: [id])
+  accountId   String
+  ownerWallet String
+  secret      String  @unique
+  // privey work here
+}
